@@ -108,7 +108,7 @@ public class RetrofitManager {
 
     public RetrofitManager setApiBaseUrl(String apiBaseUrl) {
         this.apiBaseUrl = apiBaseUrl;
-        return getInstance();
+        return sInstance;
     }
 
     public String getApiBaseUrl() {
@@ -129,12 +129,12 @@ public class RetrofitManager {
 
     public RetrofitManager addHeader(String headerKey, String headerValue) {
         mHeaders.put(headerKey, headerValue);
-        return getInstance();
+        return sInstance;
     }
 
     public RetrofitManager addHeaders(Map<String, String> header) {
         mHeaders.putAll(header);
-        return getInstance();
+        return sInstance;
     }
 
     public RetrofitManager replaceHeader(String headerKey, String headerValue) {
@@ -142,21 +142,21 @@ public class RetrofitManager {
             mHeaders.remove(headerKey);
         mHeaders.put(headerKey, headerValue);
         init();
-        return getInstance();
+        return sInstance;
     }
 
     public RetrofitManager replaceHeaders(Map<String, String> headers) {
         mHeaders.clear();
         mHeaders.putAll(headers);
         init();
-        return getInstance();
+        return sInstance;
     }
 
     public RetrofitManager replaceApiBaseUrl(String baseUrl) {
         this.apiBaseUrl = baseUrl;
         this.retrofit = null;
         init();
-        return getInstance();
+        return sInstance;
     }
 
     public <S> S createService(Class<S> serviceClass) {
