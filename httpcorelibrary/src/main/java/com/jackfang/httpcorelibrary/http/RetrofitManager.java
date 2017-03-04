@@ -106,8 +106,9 @@ public class RetrofitManager {
         return this.apiBaseUrl != null && this.apiBaseUrl.startsWith("https://");
     }
 
-    public void setApiBaseUrl(String apiBaseUrl) {
+    public RetrofitManager setApiBaseUrl(String apiBaseUrl) {
         this.apiBaseUrl = apiBaseUrl;
+        return getInstance();
     }
 
     public String getApiBaseUrl() {
@@ -126,31 +127,36 @@ public class RetrofitManager {
         return retrofit;
     }
 
-    public void addHeader(String headerKey, String headerValue) {
+    public RetrofitManager addHeader(String headerKey, String headerValue) {
         mHeaders.put(headerKey, headerValue);
+        return getInstance();
     }
 
-    public void addHeaders(Map<String, String> header) {
+    public RetrofitManager addHeaders(Map<String, String> header) {
         mHeaders.putAll(header);
+        return getInstance();
     }
 
-    public void replaceHeader(String headerKey, String headerValue) {
+    public RetrofitManager replaceHeader(String headerKey, String headerValue) {
         if (mHeaders.containsKey(headerKey))
             mHeaders.remove(headerKey);
         mHeaders.put(headerKey, headerValue);
         init();
+        return getInstance();
     }
 
-    public void replaceHeaders(Map<String, String> headers) {
+    public RetrofitManager replaceHeaders(Map<String, String> headers) {
         mHeaders.clear();
         mHeaders.putAll(headers);
         init();
+        return getInstance();
     }
 
-    public void replaceApiBaseUrl(String baseUrl) {
+    public RetrofitManager replaceApiBaseUrl(String baseUrl) {
         this.apiBaseUrl = baseUrl;
         this.retrofit = null;
         init();
+        return getInstance();
     }
 
     public <S> S createService(Class<S> serviceClass) {
