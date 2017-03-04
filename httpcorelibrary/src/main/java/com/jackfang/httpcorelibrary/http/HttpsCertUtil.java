@@ -74,7 +74,7 @@ public class HttpsCertUtil {
         }
 
         // Put the certificates a key store.
-        char[] password = "LouLiFangPassword".toCharArray(); // Any password will work.
+        char[] password = "PasswordHttpCore".toCharArray(); // Any password will work.
         KeyStore keyStore = newEmptyKeyStore(password);
         int index = 0;
         for (Certificate certificate : certificates) {
