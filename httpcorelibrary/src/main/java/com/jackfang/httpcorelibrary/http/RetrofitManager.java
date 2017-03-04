@@ -125,13 +125,22 @@ public class RetrofitManager {
     }
 
     public void addHeader(String headerKey, String headerValue) {
-        if (mHeaders.containsKey(headerKey))
-            mHeaders.remove(headerKey);
         mHeaders.put(headerKey, headerValue);
     }
 
     public void addHeaders(Map<String, String> header) {
         mHeaders.putAll(header);
+    }
+
+    public void replaceHeader(String headerKey, String headerValue) {
+        if (mHeaders.containsKey(headerKey))
+            mHeaders.remove(headerKey);
+        mHeaders.put(headerKey, headerValue);
+    }
+
+    public void replaceHeaders(Map<String, String> headers) {
+        mHeaders.clear();
+        mHeaders.putAll(headers);
     }
 
     public <S> S createService(Class<S> serviceClass) {
