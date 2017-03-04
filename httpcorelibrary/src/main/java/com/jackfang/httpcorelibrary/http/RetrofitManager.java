@@ -15,6 +15,7 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,19 +46,6 @@ public class RetrofitManager {
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
         httpClient = new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor);
-
-        X509TrustManager trustManager;
-        SSLSocketFactory sslSocketFactory;
-        try {
-            trustManager = HttpsCertUtil.trustManagerForCertificates(
-                    HttpsCertUtil.trustedCertificatesInputStream());
-            SSLContext sslContext = SSLContext.getInstance("TLS");
-            sslContext.init(null, new TrustManager[]{trustManager}, null);
-            sslSocketFactory = sslContext.getSocketFactory();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        }
-        httpClient.sslSocketFactory(sslSocketFactory, trustManager);
     }
 
     public static RetrofitManager getInstance() {
@@ -98,7 +86,24 @@ public class RetrofitManager {
             };
             httpClient.addInterceptor(headerInterceptor);
         }
+        if (isHttps()) {
+            X509TrustManager trustManager;
+            SSLSocketFactory sslSocketFactory;
+            try {
+                trustManager = HttpsCertUtil.trustManagerForCertificates(
+                        HttpsCertUtil.trustedCertificatesInputStream());
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{trustManager}, null);
+                sslSocketFactory = sslContext.getSocketFactory();
+            } catch (GeneralSecurityException e) {
+                throw new RuntimeException(e);
+            }
+            httpClient.sslSocketFactory(sslSocketFactory, trustManager);
+        }
+    }
 
+    public boolean isHttps() {
+        return this.apiBaseUrl != null && this.apiBaseUrl.startsWith("https://");
     }
 
     public void setApiBaseUrl(String apiBaseUrl) {
