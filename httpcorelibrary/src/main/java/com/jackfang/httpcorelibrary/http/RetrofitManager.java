@@ -32,11 +32,8 @@ public class RetrofitManager {
     private static final String TAG = "RetrofitManager";
 
     private static RetrofitManager sInstance;
-
     private Map<String, String> mHeaders = new HashMap<>();
-
     private String apiBaseUrl;
-
     private Gson gson;
     private OkHttpClient.Builder httpClient;
     private Retrofit.Builder retrofit;
@@ -136,11 +133,19 @@ public class RetrofitManager {
         if (mHeaders.containsKey(headerKey))
             mHeaders.remove(headerKey);
         mHeaders.put(headerKey, headerValue);
+        init();
     }
 
     public void replaceHeaders(Map<String, String> headers) {
         mHeaders.clear();
         mHeaders.putAll(headers);
+        init();
+    }
+
+    public void replaceApiBaseUrl(String baseUrl) {
+        this.apiBaseUrl = baseUrl;
+        this.retrofit = null;
+        init();
     }
 
     public <S> S createService(Class<S> serviceClass) {
