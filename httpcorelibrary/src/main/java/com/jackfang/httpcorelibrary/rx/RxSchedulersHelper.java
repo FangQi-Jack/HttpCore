@@ -1,6 +1,5 @@
 package com.jackfang.httpcorelibrary.rx;
 
-import com.jackfang.httpcorelibrary.exceptions.ServerErrorException;
 import com.jackfang.httpcorelibrary.model.BaseModel;
 
 import io.reactivex.Observable;
@@ -28,12 +27,7 @@ public class RxSchedulersHelper {
                 return upstream.flatMap(new Function<BaseModel<T>, ObservableSource<T>>() {
                     @Override
                     public ObservableSource<T> apply(@NonNull BaseModel<T> tBaseModel) throws Exception {
-                        if (tBaseModel.isSuccess()) {
-                            return createData(tBaseModel.getData());
-                        } else {
-                            return Observable.error(new ServerErrorException(tBaseModel.getMessage(),
-                                    tBaseModel.getStatus()));
-                        }
+                        return createData(tBaseModel.getData());
                     }
                 }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
             }
