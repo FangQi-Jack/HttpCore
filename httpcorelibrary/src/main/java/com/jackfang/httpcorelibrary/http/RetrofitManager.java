@@ -15,7 +15,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -106,13 +105,13 @@ public class RetrofitManager {
         return this.apiBaseUrl != null && this.apiBaseUrl.startsWith("https://");
     }
 
+    public String getApiBaseUrl() {
+        return apiBaseUrl;
+    }
+
     public RetrofitManager setApiBaseUrl(String apiBaseUrl) {
         this.apiBaseUrl = apiBaseUrl;
         return sInstance;
-    }
-
-    public String getApiBaseUrl() {
-        return apiBaseUrl;
     }
 
     public Map<String, String> getHeaders() {

@@ -11,9 +11,8 @@ import io.reactivex.functions.Consumer;
  * Email: jackfangqi1314@gmail.com
  */
 public abstract class RxException<T extends Throwable> implements Consumer<T> {
-    private static final String TAG = "RxException";
-
     public static final int NETWORK_ERROR_EXCEPTION_CODE = -1;
+    private static final String TAG = "RxException";
     private static final String NETWORK_ERROR_EXCEPTION_MSG = "网络错误";
 
     @Override
